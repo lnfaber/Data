@@ -1,0 +1,81 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DataStructures
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int iInput;
+            int iCount = 1;
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            Stack<string> sStack = new Stack<string>();
+            Queue<string> sQueue = new Queue<string>();
+            Dictionary<string, int> sDictionary = new Dictionary<string, int>();
+
+
+            Console.WriteLine("1.Stack\n 2.Queue\n 3. Dictionary\n 4.Exit");
+            iInput = Console.Read();
+
+
+            if(iInput == 1)
+            {
+                Console.WriteLine("1. Add one item to Stack\n 2. Add Huge List of Items to Stack\n 3. Display Stack\n 4. Delete from Stack\n 5. Clear Stack\n 6. Search Stack \n 7. Return to Main Menu");
+                
+                if(iInput == 1)
+                {
+                    Console.WriteLine("Enter the item name: ");
+                    sStack.Push(Console.ReadLine());
+                }
+                else if(iInput == 2)
+                {
+                    sStack.Clear();
+
+                    while (sStack.Count() < 1000)
+                    {
+                        sStack.Push("New Entry " + iCount);
+                    }
+                }
+                else if (iInput == 3)
+                {
+
+                }
+                else if (iInput == 4)
+                {
+
+                }
+                else if (iInput == 5)
+                {
+                    sStack.Clear();
+                }
+                else if (iInput == 6)
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+            else if(iInput == 2)
+            {
+
+            }
+            else if(iInput == 3)
+            {
+
+            }
+            else if (iInput == 4)
+            {
+
+            }
+
+
+
+        }
+    }
+}
