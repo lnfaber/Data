@@ -4,79 +4,578 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//I am nervous
+//Name: Group 2-2 Lauren Faber, Cody Hyer, Katy Vance, Stephen Godderidge
+//Description: This is a program to allow the user to choose from a menu if they want to work with a a stack, queue, or dictionary. In each option the user can
+//decide if they want to load up data manually, automatically, display it, delete it, or search through the data
+//Date: Sep 24th 2016
 namespace DataStructures
 {
     class Program
     {
-        static void Main(string[] args)
+
+        static string UppercaseWords(string value)
         {
+            char[] array = value.ToCharArray();
+            // Handle the first letter in the string.
+            if (array.Length >= 1)
+            {
+                if (char.IsLower(array[0]))
+                {
+                    array[0] = char.ToUpper(array[0]);
+                }
+            }
+            // Scan through the letters, checking for spaces.
+            // ... Uppercase the lowercase letters following spaces.
+            for (int i = 1; i < array.Length; i++)
+            {
+                if (array[i - 1] == ' ')
+                {
+                    if (char.IsLower(array[i]))
+                    {
+                        array[i] = char.ToUpper(array[i]);
+                    }
+                }
+            }
+            return new string(array);
+        }
+
+        static void Main(string[] args)
+        { //declare variables
             int iInput;
+            int iInput1; 
+            int iInput2;
+            int iInput3;
             int iCount = 1;
+            int iStack;
+            int iCount2 = 0;
+            //declare booleans
+            Boolean bStack = true;
+            Boolean bQueue = true;
+            Boolean bDictionary = true;
+            Boolean bMenu = true;
+            Boolean bResult = true;
+            Boolean bDeleteFound = false;
+            
+            //declare strings
+            string sSearch; 
+            string sItemDelete;
+            string sTempItem;
+            
+            //stop watch
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+
+            //stack, queue, and dictionary
             Stack<string> sStack = new Stack<string>();
             Queue<string> sQueue = new Queue<string>();
             Dictionary<string, int> sDictionary = new Dictionary<string, int>();
 
-
-            Console.WriteLine("1.Stack\n 2.Queue\n 3. Dictionary\n 4.Exit");
-            iInput = Console.Read();
-
-
-            if(iInput == 1)
-            {
-                Console.WriteLine("1. Add one item to Stack\n 2. Add Huge List of Items to Stack\n 3. Display Stack\n 4. Delete from Stack\n 5. Clear Stack\n 6. Search Stack \n 7. Return to Main Menu");
+            //while loop for the entire menu so that whenever user chooses 4 from main menu it will exit
+            while (bMenu == true)
+            {   //write out first list
                 
-                if(iInput == 1)
+                    Console.WriteLine(" 1. Stack\n 2. Queue\n 3. Dictionary\n 4. Exit");
+                    iInput = Convert.ToInt32(Console.ReadLine());
+                    
+               
+                //if user does not enter in one of the numbers from the list they will get a message asking them to put in an appropriate number
+                if (iInput != 1 & iInput != 2 & iInput != 3 & iInput != 4)
                 {
-                    Console.WriteLine("Enter the item name: ");
-                    sStack.Push(Console.ReadLine());
+                    Console.WriteLine("\nPlease enter one of the given options");
+                    Console.WriteLine();
                 }
-                else if(iInput == 2)
-                {
-                    sStack.Clear();
-
-                    while (sStack.Count() < 1000)
-                    {
-                        sStack.Push("New Entry " + iCount);
-                    }
-                }
-                else if (iInput == 3)
-                {
-
-                }
-                else if (iInput == 4)
-                {
-
-                }
-                else if (iInput == 5)
-                {
-                    sStack.Clear();
-                }
-                else if (iInput == 6)
-                {
-
-                }
+                   
+                    //if they put in 1-4 then the code will run
                 else
                 {
 
-                }
-            }
-            else if(iInput == 2)
-            {
+                    #region Stack
+                    /***************************************STACK********************************************/
+                    // if they choose 1 from main menu
+                    if (iInput == 1)
+                    {   //so that the 1 menu will continue to appear until they choose to go to the main menu
+                        while (bStack == true)
+                        {   //display list
+                            Console.WriteLine("\n 1. Add one item to Stack\n 2. Add Huge List of Items to Stack\n 3. Display Stack\n 4. Delete from Stack\n 5. Clear Stack\n 6. Search Stack \n 7. Return to Main Menu");
+                            iInput1 = Convert.ToInt32(Console.ReadLine());
 
-            }
-            else if(iInput == 3)
-            {
+                            //check to make sure they put in 1-7 for the options
+                            if (iInput1 != 1 & iInput1 != 2 & iInput1 != 3 & iInput1 != 4 & iInput1 != 5 & iInput1 != 6 & iInput1 != 7)
+                            {
+                                Console.WriteLine("\nPlease enter one of the given options");
+                                Console.WriteLine();
+                            }
 
-            }
-            else if (iInput == 4)
-            {
+                            else
+                            {
+                                if (iInput1 == 1)
+                                {   //enter names manually one at a time and push to the stack
+                                    Console.WriteLine("\nEnter the item name: ");
+                                    sStack.Push(UppercaseWords(Console.ReadLine()));
+                                }
 
-            }
+                                else if (iInput1 == 2)
+                                {   //clear stack
+                                    sStack.Clear();
+                                    //load up 2000 places in the stack
+                                    for (iCount = 1; iCount < 2001; iCount++)
+                                    {
+                                        sStack.Push("New Entry " + Convert.ToString(iCount));
+
+                                    }
+                                    Console.WriteLine("\nHuge list of items added.");
+                                }
 
 
+                                else if (iInput1 == 3) //display
+                                {   //first make sure there is something in the stack to be shown
+                                    if (sStack.Count() >= 1)
+                                    {
+
+                                        try
+                                        {
+                                            //foreach loop will display each string element in the Stack
+                                            foreach (string Element in sStack)
+                                            {
+                                                Console.WriteLine(Element);
+                                            }
+                                        }
+                                        catch
+                                        {
+                                            Console.WriteLine("\nSorry, there was an error. Please select another option.");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("\nThe stack is currently empty. Please add a value to the stack " +
+                                                            "before choosing the display option.");
+                                    }
+                                }
+
+                                else if (iInput1 == 4) // delete
+                                {
+                                    bDeleteFound = false;
+                                    //if statement to see if there are items in the stack to delete 
+                                    if (sStack.Count() >= 1)
+                                    {
+                                        Console.WriteLine("\nWhat is the name of the entry you want to delete?");
+                                        sItemDelete = Console.ReadLine();
+                                        sItemDelete = UppercaseWords(sItemDelete);
+
+                                        //create temporary stack
+                                        Stack<string> sTempStack = new Stack<string>();
+                                        iStack = sStack.Count();
+                                        for (iCount = 0; iCount < iStack; iCount++)
+                                        {
+                                            //item found and deleted
+                                            string variable = sStack.Pop();
+                                            if (sItemDelete == variable)
+                                            {
+                                                //boolean that lets user know if their item was found
+                                                bDeleteFound = true;
+                                            }
+                                            //item not the same so moved to temp stack
+                                            else
+                                            {
+                                                sTempStack.Push(variable);
+                                            }
+                                        }
+
+                                        //loads the stack back up from the temp stack
+                                        /*foreach (string x in sTempStack)*/
+                                        int iStack2 = sTempStack.Count();
+                                        for (iCount = 0; iCount < iStack2; iCount++)
+                                        {
+                                            sTempItem = sTempStack.Pop();
+                                            sStack.Push(sTempItem);
+                                        }
+
+                                        //outprint if the item is not found
+                                        if (bDeleteFound == false)
+                                        {
+                                            Console.WriteLine();
+                                            Console.WriteLine("\nItem not found.");
+                                        }
+                                        //outprint that the item has been deleted
+                                        else
+                                        {
+                                            Console.WriteLine();
+                                            Console.WriteLine(sItemDelete + " has been deleted.");
+                                        }
+                                    }
+                                    //no items to delete
+                                    else
+                                    {
+                                        Console.WriteLine("The stack is currently empty.  Please add items to the stack before deleting.");
+                                    }
+                                }
+
+                                else if (iInput1 == 5) //clear
+                                {
+                                    sStack.Clear();
+                                }
+                                else if (iInput1 == 6)//search
+                                {
+                                    bResult = true;
+                                    sw.Reset();
+                                    Console.WriteLine("Name of item searching for? ");
+                                    sSearch = Console.ReadLine();
+                                    sw.Start();
+                                    sSearch = UppercaseWords(sSearch);
+
+                                    foreach (string x in sStack)
+                                    {
+
+                                        if (x == sSearch)
+                                        {
+                                            bResult = false;
+
+                                        }
+
+                                    }
+
+                                    if (bResult == false)
+                                    {
+                                        Console.WriteLine("\nEntry Found ");
+                                        sw.Stop();
+
+                                    }
+
+                                    else
+                                    {
+                                        Console.WriteLine("\nEntry Not Found ");
+                                        sw.Stop();
+                                    }
+
+                                    Console.WriteLine("Search Time " + sw.ElapsedMilliseconds + " Milliseconds");
+
+                                }
+                                else if (iInput1 == 7) //exit to menu
+                                {
+                                    bStack = false;
+                                    Console.WriteLine();
+
+                                }
+                            }
+                        }
+                    }
+                    #endregion
+                    #region Queue
+
+                    /***************************************QUEUE********************************************/
+                    //When the user selects Queue from the overall menu it drops into this series of code
+                    else if (iInput == 2)
+                    {
+                        //This while loop is used to pull the menu back up after a selection has been made
+                        while (bQueue == true)
+                        {
+                            //This statement pulls up the Queue menu
+                            Console.WriteLine("\n 1. Add one item to Queue\n 2. Add Huge List of Items to Queue\n 3. Display Queue\n 4. Delete from Queue\n 5. Clear Queue\n 6. Search Queue \n 7. Return to Main Menu");
+                            iInput2 = Convert.ToInt32(Console.ReadLine());
+                            //check to make sure they put in a number
+                            if (iInput2 != 1 & iInput2 != 2 & iInput2 != 3 & iInput2 != 4 & iInput2 != 5 & iInput2 != 6 & iInput2 != 7)
+                            {
+                                Console.WriteLine("\nPlease enter one of the given options");
+                                Console.WriteLine();
+                            }
+
+                            else
+                            {
+
+                                //This code is used to add one item to the Queue after the user selects to do so
+                                if (iInput2 == 1)
+                                {
+                                    Console.WriteLine("Enter the item name: ");
+                                    sQueue.Enqueue(UppercaseWords(Console.ReadLine()));
+
+                                }
+
+                                //This is the code used to add a huge list to the Queue
+                                else if (iInput2 == 2)
+                                {
+                                    sQueue.Clear();
+                                    //This loop is used to create 2000 items in the Queue called New Entry
+                                    for (iCount = 1; iCount < 2001; iCount++)
+                                    {
+                                        sQueue.Enqueue("New Entry " + iCount);
+                                    }
+                                    Console.WriteLine("\nHuge list of items added to queue.");
+                                }
+
+                                else if (iInput2 == 3) //Display 
+                                {
+                                    if (sQueue.Count() >= 1) //check to see if the Queue is empty
+                                    {
+                                        //prevents any unexpected errors
+                                        try
+                                        {
+                                            //foreach loop will display each string element in the Stack
+                                            foreach (string Element in sQueue)
+                                            {
+                                                Console.WriteLine(Element);
+                                            }
+                                        }
+                                        catch
+                                        {
+                                            Console.WriteLine("Sorry, there was an error. Please select another option.");
+                                        }
+                                    }
+                                    else//prompt user to enter something before choosing the display option
+                                    {
+                                        Console.WriteLine("The Queue is currently empty. Please add a value to the Queue " +
+                                                            "before choosing the display option.");
+                                    }
+                                }
+                                else if (iInput2 == 4) //delete
+                                {
+                                    string qItemDelete;
+                                    string qTempItem;
+                                    bDeleteFound = false;
+                                    //if statement to see if there are items in the stack to delete 
+                                    if (sQueue.Count() >= 1)
+                                    {
+                                        Console.WriteLine("What entry do you want to delete?");
+                                        qItemDelete = Console.ReadLine();
+                                        qItemDelete = UppercaseWords(qItemDelete);
+
+                                        //create temporary stack
+                                        Queue<string> qTempQueue = new Queue<string>();
+                                        int iQueue = sQueue.Count();
+                                        for (iCount = 0; iCount < iQueue; iCount++)
+                                        {
+                                            //item found and deleted
+                                            string remove = sQueue.Dequeue();
+                                            if (qItemDelete == remove)
+                                            {
+                                                //boolean that lets user know if their item was found
+                                                bDeleteFound = true;
+                                            }
+                                            //item not the same so moved to temp stack
+                                            else
+                                            {
+                                                qTempQueue.Enqueue(remove);
+                                            }
+                                        }
+
+                                        //loads the stack back up from the temp stack
+                                        int iQueue2 = qTempQueue.Count();
+                                        for (iCount = 0; iCount < iQueue2; iCount++)
+                                        {
+                                            qTempItem = qTempQueue.Dequeue();
+                                            sQueue.Enqueue(qTempItem);
+                                        }
+
+                                        //outprint if the item is not found
+                                        if (bDeleteFound == false)
+                                        {
+                                            Console.WriteLine("Item not found.");
+                                        }
+                                        //outprint that the item has been deleted
+                                        else
+                                        {
+                                            Console.WriteLine(qItemDelete + " has been deleted.");
+                                        }
+                                    }
+                                    //no items to delete
+                                    else
+                                    {
+                                        Console.WriteLine("The queue is currently empty.  Please add items to the queue before deleting.");
+                                    }
+                                }
+                                else if (iInput2 == 5) //clear
+                                {
+                                    sQueue.Clear();
+                                }
+                                else if (iInput2 == 6) //search
+                                {
+                                    bResult = true;
+                                    sw.Reset();
+                                    Console.WriteLine("Name of item: ");
+                                    sSearch = Console.ReadLine();
+                                    sSearch = UppercaseWords(sSearch);
+                                    sw.Start();
+                                    foreach (string x in sQueue)
+                                    {
+                                        if (x == sSearch)
+                                        {
+                                            bResult = false;
+                                        }
+                                    }
+                                    if (bResult == false)
+                                    {
+                                        Console.WriteLine("Entry Found");
+                                        sw.Stop();
+                                        Console.WriteLine("Search time: " + sw.ElapsedMilliseconds + " Milliseconds");
+                                    }
+                                    else if (bResult == true)
+                                    {
+                                        Console.WriteLine("Entry Not Found");
+                                        sw.Stop();
+                                        Console.WriteLine("Search time: " + sw.ElapsedMilliseconds + " Milliseconds");
+                                    }
+                                }
+                                else if (iInput2 == 7) //exit to menu
+                                {
+                                    bQueue = false;
+                                    Console.WriteLine();
+                                }
+                            }
+                        }
+                    }
+                    #endregion Queue
+                    #region Dictionary
+
+                    //When the user selects Dictionary from the overall menu it drops into this code
+                    else if (iInput == 3)
+                    {
+                        //This while loop is used to pull the menu back up after a selection has been made
+                        while (bDictionary == true)
+                        {
+                            //Displays the dictionary menu
+                            Console.WriteLine("\n 1. Add one item to Dictionary\n 2. Add Huge List of Items to Dictionary\n 3. Display Dictionary\n 4. Delete from Dictionary\n 5. Clear Dictionary\n 6. Search Dictionary \n 7. Return to Main Menu");
+                            iInput3 = Convert.ToInt32(Console.ReadLine());
+                            if (iInput3 != 1 & iInput3 != 2 & iInput3 != 3 & iInput3 != 4 & iInput3 != 5 & iInput3 != 6 & iInput3 != 7)
+                            {
+                                Console.WriteLine("\nPlease enter one of the given options");
+                                Console.WriteLine();
+                            }
+
+                            else
+                            {
+
+                                //This code is used to add one item to the Dictionary
+                                if (iInput3 == 1)
+                                {
+                                    Console.WriteLine("\nEnter the item name: ");
+                                    sDictionary.Add(UppercaseWords(Console.ReadLine()), iCount2 + 1);
+                                    iCount2++;
+                                }
+                                //This is the code used to create a huge list within the Dictionary
+                                else if (iInput3 == 2)
+                                {
+                                    sDictionary.Clear();
+                                    //This for loop creates 2000 "New Entries" and adds them to the Dictionary
+                                    for (iCount = 1; iCount < 2001; iCount++)
+                                    {
+                                        sDictionary.Add("New Entry " + Convert.ToString(iCount), iCount);
+                                    }
+                                    Console.WriteLine("\nHuge list of items added to dictionary.");
+                                }
+                                else if (iInput3 == 3)//Display
+
+                                    if (sDictionary.Count() >= 1)//Check to see if the dictionary is full
+                                    {
+                                        //prevents any unexpected errors
+                                        try
+                                        {
+                                            //using a linq statement to print out the dictionary
+                                            var lines = sDictionary.Select(kvp => kvp.Key + " " + kvp.Value.ToString());
+                                            Console.WriteLine(string.Join(Environment.NewLine, lines));
+                                        }
+                                        catch
+                                        {
+                                            Console.WriteLine("Sorry, there was an error. Please select another option.");
+                                        }
+                                    }
+                                    else //prompts the user to enter something before trying to display
+                                    {
+                                        Console.WriteLine("The Dictionary is currently empty. Please add a value to the Dictionary " +
+                                                            "before choosing the display option.");
+                                    }
+
+                                else if (iInput3 == 4) //delete
+                                {
+                                    //checks to see if the dictionary is full
+                                    if (sDictionary.Count() >= 1)
+                                    {
+                                        Console.WriteLine("What entry do you want to delete from the Library?");
+                                        sItemDelete = Console.ReadLine();
+                                        sItemDelete = UppercaseWords(sItemDelete);
+
+                                        if (sDictionary.ContainsKey(sItemDelete))
+                                        {
+                                            sDictionary.Remove(sItemDelete);
+                                            Console.WriteLine(sItemDelete + " has been deleted");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Item not found");
+                                        }
+
+
+                                    }
+
+                                    else
+                                    {
+                                        Console.WriteLine("The dictionary is currently empty.  Please add items to the dictionary before deleting.");
+                                    }
+                                }
+                                else if (iInput3 == 5) //clear
+                                {
+                                    sDictionary.Clear();
+                                }
+                                else if (iInput3 == 6) //search
+                                {
+                                    bResult = true;
+                                    sw.Reset();
+                                    Console.WriteLine("Name of item searching for? ");
+                                    sSearch = Console.ReadLine();
+                                    sSearch = UppercaseWords(sSearch);
+                                    sw.Start();
+
+                                    if (sDictionary.ContainsKey(sSearch))
+                                    {
+                                        bResult = false;
+                                    }
+
+
+                                    if (bResult == false)
+                                    {
+                                        Console.WriteLine("\nEntry Found ");
+                                        sw.Stop();
+
+                                    }
+
+                                    else
+                                    {
+                                        Console.WriteLine("\nEntry Not Found ");
+                                        sw.Stop();
+                                    }
+
+                                    Console.WriteLine("Search Time " + sw.ElapsedMilliseconds + " Milliseconds");
+
+                                }
+                                else if (iInput3 == 7) //exit to menu
+                                {
+                                    bDictionary = false;
+                                    Console.WriteLine();
+
+                                }
+                            }
+                        }
+                    }
+
+
+
+                    #endregion
+                    else if (iInput == 4) //close program
+                    {
+                        bMenu = false;
+                    }
+
+                }//this ties back to the else at the top
+
+            } 
 
         }
     }
 }
+
+
+
+//1. Extra try catches
+//2. Deleting list first checks to see if the list is empty if it is displays that it cannot delete
+//3. If deleting list cannot find the item tells you that it cannot find the item
+//4. Code can handle uppercase or lower case entries when deleting or searching for every single word in the "New Entry" or whatever the user enters manually
+//5. If user does not put in 1, 2, 3, or 4 for the main menu it gives them an error asking to choose one of the options.
+//6. If user does not put in 1, 2, 3, 4, 5, 6, or 7 for any of the sub menus it asks them to put in a correct option.
+//7. Neat code and good comments :)
